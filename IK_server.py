@@ -71,6 +71,9 @@ def handle_calculate_IK(req):
             T5_6 = T5_6.subs(s)
             T6_G = transform(q7, a6, d7, alpha6)
             T6_G = T6_G.subs(s)
+
+           # Transformation to find end-effector position
+           T0_G = simplify(T6_G*T5_6*T4_5*T3_4*T3_4*T2_3*T1_2*T0_1)    
         # Extract end-effector position and orientation from request
 	    # px,py,pz = end-effector position
 	    # roll, pitch, yaw = end-effector orientation
