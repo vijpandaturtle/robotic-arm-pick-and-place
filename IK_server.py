@@ -39,13 +39,13 @@ def handle_calculate_IK(req):
 
            # Joint angle symbols
            # Modified DH params
-            s = { d1 : 0.33, alpha0 : 0, a0 : 0,
-                 d2 : 0, alpha1: -pi/2, a1 : 0.35, q2 : q2 - pi/2
-                 d3 : 0, alpha2 : 0, a2 : 1.25,
-                 d4 : 1.50, alpha3 : -pi/2, a3 : -0.054,
-                 d5 : 0, alpha4 : pi/2, a4 : 0,
-                 d6 : 0, alpha5 : -pi/2, a5 : 0,
-                 d7 : 0.303, alpha6 : 0, a6 : 0, q7 : 0
+            s = { d1 : 0.75, alpha0 : 0,     a0 : 0,
+                  d2 : 0,    alpha1 : -pi/2, a1 : 0.35, q2 : q2 - pi/2
+                  d3 : 0,    alpha2 : 0,     a2 : 1.25,
+                  d4 : 1.50, alpha3 : -pi/2, a3 : -0.054,
+                  d5 : 0,    alpha4 : pi/2,  a4 : 0,
+                  d6 : 0,    alpha5 : -pi/2, a5 : 0,
+                  d7 : 0.303,alpha6 : 0,     a6 : 0, q7 : 0
                  }
 
 
