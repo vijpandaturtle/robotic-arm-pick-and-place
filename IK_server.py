@@ -33,7 +33,6 @@ def handle_calculate_IK(req):
 
             # Define DH param symbols
             q1, q2, q3, q4, q5, q6, q7 = symbols('q1:8')
-            q2 = q2 - pi/2
             d1, d2, d3, d4, d5, d6, d7 = symbols('d1:7')
             alpha0, alpha1, alpha2, alpha3, alpha4, alpha5, alpha6= symbols('alpha0:7')
             a0, a1, a2, a3, a4, a5, a6 = symbols('a0:6')
@@ -41,12 +40,12 @@ def handle_calculate_IK(req):
            # Joint angle symbols
            # Modified DH params
             s = { d1 : 0.33, alpha0 : 0, a0 : 0,
-                 d2 : 0, alpha1: -pi/2, a1 : 0.35,
+                 d2 : 0, alpha1: -pi/2, a1 : 0.35, q2 : q2 - pi/2
                  d3 : 0, alpha2 : 0, a2 : 1.25,
                  d4 : 1.50, alpha3 : -pi/2, a3 : -0.054,
                  d5 : 0, alpha4 : pi/2, a4 : 0,
                  d6 : 0, alpha5 : -pi/2, a5 : 0,
-                 d7 : 0.303, alpha6 : 0, a6 : 0
+                 d7 : 0.303, alpha6 : 0, a6 : 0, q7 : 0
                  }
 
 
@@ -73,7 +72,7 @@ def handle_calculate_IK(req):
             T6_G = T6_G.subs(s)
 
            # Transformation to find end-effector position
-           T0_G = simplify(T6_G*T5_6*T4_5*T3_4*T3_4*T2_3*T1_2*T0_1)    
+           T0_G = simplify(T6_G*T5_6*T4_5*T3_4*T3_4*T2_3*T1_2*T0_1)
         # Extract end-effector position and orientation from request
 	    # px,py,pz = end-effector position
 	    # roll, pitch, yaw = end-effector orientation
