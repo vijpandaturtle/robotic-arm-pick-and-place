@@ -40,10 +40,6 @@ def handle_calculate_IK(req):
 
            # Joint angle symbols
            # Modified DH params
-           #d1, d2, d3, d4, d5, d6, d7 = 0.33, 0, 0, 1.50, 0, 0, 0.303
-           #alpha0, alpha1, alpha2, alpha3, alpha4, alpha5, alpha6 = 0, -pi/2, 0, -pi/2, pi/2, -pi/2, 0
-           #a0, a1, a2, a3, a4, a5, a6 = 0, 0.35, 1.25, -0.054, 0, 0, 0
-
             s = { d1 : 0.33, alpha0 : 0, a0 : 0,
                  d2 : 0, alpha1: -pi/2, a1 : 0.35,
                  d3 : 0, alpha2 : 0, a2 : 1.25,
@@ -56,7 +52,7 @@ def handle_calculate_IK(req):
 
             # Define Modified DH Transformation matrix
             def  transform(q , a, d, alpha):
-                 transform = Matrix([ [cos(q), -sin(q), 0, a], [sin(q)*cos(alpha), cos(q)*cos(alpha), -sin(alpha), -sin(q)*d], [sin(q)*sin(alpha), cos(q)*sin(alpha),
+                 transform = Matrix([ [cos(q), -sin(q), 0, a], [sin(q)*cos(alpha), cos(q)*cos(alpha), -sin(alpha), -sin(alpha)*d], [sin(q)*sin(alpha), cos(q)*sin(alpha),
                           cos(alpha), cos(alpha)*d], [0, 0, 0, 1] ])
                  return transform
 
