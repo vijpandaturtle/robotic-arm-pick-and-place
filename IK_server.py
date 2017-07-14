@@ -71,8 +71,16 @@ def handle_calculate_IK(req):
             T6_G = transform(q7, a6, d7, alpha6)
             T6_G = T6_G.subs(s)
 
+         # Correction to fix difference in orientation between gripper frame and dh parameter convention method
+            R_z = Matrix([[cos(pi), -sin(pi), 0],[sin(pi), cos(pi), 0],[0, 0, 1]])
+            R_y = Matrix([[cos(-pi/2), 0, sin(-pi/2)],[0, 1, 0],[-sin(-pi/2), 0, cos(-pi/2)]])
+            # Correction term
+            R_correction = simplify(R_z*R_y)
+
            # Transformation to find end-effector position
            T0_G = simplify(T6_G*T5_6*T4_5*T3_4*T3_4*T2_3*T1_2*T0_1)
+           # Corrected total transform
+           T_total = simplify(T0_G * R_correction)
         # Extract end-effector position and orientation from request
 	    # px,py,pz = end-effector position
 	    # roll, pitch, yaw = end-effector orientation
