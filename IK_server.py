@@ -33,14 +33,14 @@ def handle_calculate_IK(req):
 
             # Define DH param symbols
             q1, q2, q3, q4, q5, q6, q7 = symbols('q1:8')
-            d1, d2, d3, d4, d5, d6, d7 = symbols('d1:7')
+            d1, d2, d3, d4, d5, d6, d7 = symbols('d1:8')
             alpha0, alpha1, alpha2, alpha3, alpha4, alpha5, alpha6= symbols('alpha0:7')
-            a0, a1, a2, a3, a4, a5, a6 = symbols('a0:6')
+            a0, a1, a2, a3, a4, a5, a6 = symbols('a0:7')
 
            # Joint angle symbols
            # Modified DH params
             s = { d1 : 0.75, alpha0 : 0,     a0 : 0,
-                  d2 : 0,    alpha1 : -pi/2, a1 : 0.35, q2 : q2 - pi/2
+                  d2 : 0,    alpha1 : -pi/2, a1 : 0.35, q2 : q2 - pi/2,
                   d3 : 0,    alpha2 : 0,     a2 : 1.25,
                   d4 : 1.50, alpha3 : -pi/2, a3 : -0.054,
                   d5 : 0,    alpha4 : pi/2,  a4 : 0,
@@ -72,8 +72,8 @@ def handle_calculate_IK(req):
             T6_G = T6_G.subs(s)
 
          # Correction to fix difference in orientation between gripper frame and dh parameter convention method
-            R_z = Matrix([[cos(pi), -sin(pi), 0],[sin(pi), cos(pi), 0],[0, 0, 1]])
-            R_y = Matrix([[cos(-pi/2), 0, sin(-pi/2)],[0, 1, 0],[-sin(-pi/2), 0, cos(-pi/2)]])
+            R_z = Matrix([[cos(pi), -sin(pi), 0, 0],[sin(pi), cos(pi), 0, 0],[0, 0, 1, 0],[0, 0, 0, 1]])
+            R_y = Matrix([[cos(-pi/2), 0, sin(-pi/2), 0],[0, 1, 0, 0],[-sin(-pi/2), 0, cos(-pi/2), 0],[0, 0, 0, 1]])
             # Correction term
             R_correction = simplify(R_z*R_y)
 
@@ -93,8 +93,8 @@ def handle_calculate_IK(req):
                     req.poses[x].orientation.z, req.poses[x].orientation.w])
 
             # Calculate joint angles using Geometric IK method
-
-
+            # Calculating positions of the wrist center
+            
 
 
             # Populate response for the IK request
