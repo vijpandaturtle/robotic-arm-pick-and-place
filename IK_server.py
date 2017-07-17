@@ -94,8 +94,16 @@ def handle_calculate_IK(req):
 
             # Calculate joint angles using Geometric IK method
             # Calculating positions of the wrist center
-            
-
+            end_effector_pos = Matrix([px, py, pz])
+            R0_6 = Matrix(T0_G)
+            R0_6.row_del(3)
+            translate = R0_6.col(3)
+            #print(translate)
+            R0_6.col_del(3)
+            #print(R0_6)
+            wrist_center = simplify(end_effector_pos - R0_6*translate)
+            print(wrist_center_pos)
+            Wx, Wy, Wz = wrist_center[0], wrist_center[1], wrist_center[2]
 
             # Populate response for the IK request
             # In the next line replace theta1,theta2...,theta6 by your joint angle variables
