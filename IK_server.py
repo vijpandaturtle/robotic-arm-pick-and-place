@@ -102,12 +102,17 @@ def handle_calculate_IK(req):
             R0_6.col_del(3)
             #print(R0_6)
             wrist_center = simplify(end_effector_pos - R0_6*translate)
-            print(wrist_center_pos)
+            #print(wrist_center_pos)
             Wx, Wy, Wz = wrist_center[0], wrist_center[1], wrist_center[2]
+
+            # Finding the first three joint angles using trigonometry
+            q1 = atan2(Wy, Wx)
+            q2 = acos()
+            q3 = acos()
 
             # Populate response for the IK request
             # In the next line replace theta1,theta2...,theta6 by your joint angle variables
-	    joint_trajectory_point.positions = [theta1, theta2, theta3, theta4, theta5, theta6]
+	    joint_trajectory_point.positions = [q1, q2, q3, q4, q5, q6]
 	    joint_trajectory_list.append(joint_trajectory_point)
 
         rospy.loginfo("length of Joint Trajectory List: %s" % len(joint_trajectory_list))
