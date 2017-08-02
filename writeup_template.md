@@ -66,6 +66,6 @@ And here's another image!
 
 Here I'll talk about the code, what techniques I used, what worked and why, where the implementation might fail and how I might improve it if I were going to pursue this project further.  
 
-
+0
 And just for fun, another example image:
 ![alt text][image3]

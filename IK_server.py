@@ -105,6 +105,12 @@ def handle_calculate_IK(req):
             #print(wrist_center_pos)
             Wx, Wy, Wz = wrist_center[0], wrist_center[1], wrist_center[2]
 
+            side_a = 1.50
+            side_b = sqrt(pow(sqrt(Wx**2 + Wy**2) - 0.35,2) + pow((Wz - 0.75),2))
+            side_c = 1.25
+            angle_a = acos((side_b*sideb + side_c*side_c - side_a*side_a)/(2*side_b*side_c))
+            angle_b = acos((side_a*side_a + side_c*side_c - side_b*side_b)/(2*side_a*side_c))
+            angle_c = acos((side_a*side_a + side_b*side_b + side_c*side_c)/(2*side_a*side_b))
             # Finding the first three joint angles using trigonometry
             q1 = atan2(Wy, Wx)
             q2 = acos()
