@@ -18,7 +18,7 @@
 [//]: # (Image References)
 
 [image1]: ./images/zero_config.png
-[image2]: ./images/walkthrough_diagram.png
+[image2]: ./images/walthrough_diagram.png
 [image3]: ./misc_images/misc3.png
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/972/view) Points
@@ -43,7 +43,7 @@ In order to calculate the DH parameters I used the sketch of the arm in it's zer
 
 #### 2. Using the DH parameter table you derived earlier, create individual transformation matrices about each joint. In addition, also generate a generalized homogeneous transform between base_link and gripper_link using only end-effector(gripper) pose.
 
-*DH Parameter Table*
+***DH Parameter Table***
 ---
 
 | Joint  | ∝(i-1) | a(i-1) | θ(i) | d(i)  |
@@ -57,15 +57,13 @@ In order to calculate the DH parameters I used the sketch of the arm in it's zer
 | Gripper Frame (End-effector) | 0 | 0 | 0  | 0.303  |
 
 #### 3. Decouple Inverse Kinematics problem into Inverse Position Kinematics and inverse Orientation Kinematics; doing so derive the equations to calculate all individual joint angles.
-![alt text][image2]
-And here's another image!
 
+This was the hardest part of the project for me. I took a lot of time to visualize the thetas especially theta2 and theta3. These thetas are represented as q1,q2,q3.. in the DH parameter table. Here is a diagram that aided me in visualization.
+![alt text][image2]
+The axes represented in this image correspond to the sqrt(x^2 + y^2) and z axes. The triangle between joints 2, 3 and 5 can be evaluated by projecting it onto this frame.
 
 ### Project Implementation
 
 #### 1. Fill in the `IK_server.py` file with properly commented python code for calculating Inverse Kinematics based on previously performed Kinematic Analysis. Your code must guide the robot to successfully complete 8/10 pick and place cycles. Briefly discuss the code you implemented and your results.
 
-
-0
-And just for fun, another example image:
 ![alt text][image3]
