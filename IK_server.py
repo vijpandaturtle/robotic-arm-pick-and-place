@@ -108,13 +108,23 @@ def handle_calculate_IK(req):
             side_a = 1.50
             side_b = sqrt(pow(sqrt(Wx**2 + Wy**2) - 0.35,2) + pow((Wz - 0.75),2))
             side_c = 1.25
-            angle_a = acos((side_b*sideb + side_c*side_c - side_a*side_a)/(2*side_b*side_c))
-            angle_b = acos((side_a*side_a + side_c*side_c - side_b*side_b)/(2*side_a*side_c))
-            angle_c = acos((side_a*side_a + side_b*side_b + side_c*side_c)/(2*side_a*side_b))
+            angle_a = acos((side_b**2 + side_c**2 - side_a**2)/(2*side_b*side_c))
+            angle_b = acos((side_a**2 + side_c**2 - side_b**2)/(2*side_a*side_c))
+            angle_c = acos((side_a**2 + side_b**2 + side_c**2)/(2*side_a*side_b))
             # Finding the first three joint angles using trigonometry
             q1 = atan2(Wy, Wx)
-            q2 = acos()
-            q3 = acos()
+            q2 = pi/2 - angle_a - atan2((Wz - 0.75), sqrt(Wx**2 + Wy**2) - 0.35)
+            q3 = pi/2 - angle_b + 0.036
+
+            # Finding the last three joint angles
+            R0_3 = T0_1[0:3]*T1_2[0:3]*T2_3[0:3]
+            R0_3 = R0_3.subs(s)
+            # Using the matrix containing last three transforms to calculate last three thetas
+            R3_6 = R0_3.inv('LU')*R0_6
+
+            q4 = atan2(R3_6[2,2], -R3_6[0,2])
+            q5 = atan2(sqrt(R3_6[0,2]**2 + R3_6[2,2]) - R3_6[1,2])
+            q6 = atan2(-R3_6[1,1], R3_6[1,0])
 
             # Populate response for the IK request
             # In the next line replace theta1,theta2...,theta6 by your joint angle variables
