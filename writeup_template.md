@@ -36,7 +36,8 @@ You're reading it!
 
 The forward kinematics code was fairly easy to implementation and involved filling in the values in the DH parameter table. The urdf file consisting of the position of each joint relative to it's preceeding joint so the parameters were very intuitive.
 In order to calculate the DH parameters I used the sketch of the arm in it's zero configuration.
-![alt text](/img/zero_config.png)
+---
+![alt text](./img/zero_config.png)
 
 
 
