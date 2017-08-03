@@ -68,4 +68,4 @@ The axes represented in this image correspond to the sqrt(x^2 + y^2) and z axes.
 
 #### 1. Fill in the `IK_server.py` file with properly commented python code for calculating Inverse Kinematics based on previously performed Kinematic Analysis. Your code must guide the robot to successfully complete 8/10 pick and place cycles. Briefly discuss the code you implemented and your results.
 
-![alt text][image3]
+The inverse kinematics code was fairly easy once I was able to visualize the sides of the triangle formed by joints 2, 3 and 5. There are the x and y co-ordinates and also correction terms to adjust the position of the frame because the wrist center is calculated with respect to the base frame.
