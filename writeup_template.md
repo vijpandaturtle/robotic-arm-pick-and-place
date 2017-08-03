@@ -34,9 +34,11 @@ You're reading it!
 ### Kinematic Analysis
 #### 1. Run the forward_kinematics demo and evaluate the kr210.urdf.xacro file to perform kinematic analysis of Kuka KR210 robot and derive its DH parameters.
 
-Here is an example of how to include an image in your writeup.
+The forward kinematics code was fairly easy to implementation and involved filling in the values in the DH parameter table. The urdf file consisting of the position of each joint relative to it's preceeding joint so the parameters were very intuitive.
+In order to calculate the DH parameters I used the sketch of the arm in it's zero configuration.
+![alt text](/img/zero_config.png)
 
-![alt text][image1]
+
 
 #### 2. Using the DH parameter table you derived earlier, create individual transformation matrices about each joint. In addition, also generate a generalized homogeneous transform between base_link and gripper_link using only end-effector(gripper) pose.
 
@@ -57,14 +59,11 @@ Here is an example of how to include an image in your writeup.
 
 And here's another image!
 
-![alt text][image2]
 
 ### Project Implementation
 
 #### 1. Fill in the `IK_server.py` file with properly commented python code for calculating Inverse Kinematics based on previously performed Kinematic Analysis. Your code must guide the robot to successfully complete 8/10 pick and place cycles. Briefly discuss the code you implemented and your results.
 
-
-Here I'll talk about the code, what techniques I used, what worked and why, where the implementation might fail and how I might improve it if I were going to pursue this project further.  
 
 0
 And just for fun, another example image:
