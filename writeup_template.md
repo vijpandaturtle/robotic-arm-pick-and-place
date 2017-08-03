@@ -17,8 +17,8 @@
 
 [//]: # (Image References)
 
-[image1]: ./misc_images/misc1.png
-[image2]: ./misc_images/misc2.png
+[image1]: ./images/zero_config.png
+[image2]: ./images/walkthrough_diagram.png
 [image3]: ./misc_images/misc3.png
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/972/view) Points
@@ -36,8 +36,8 @@ You're reading it!
 
 The forward kinematics code was fairly easy to implementation and involved filling in the values in the DH parameter table. The urdf file consisting of the position of each joint relative to it's preceeding joint so the parameters were very intuitive.
 In order to calculate the DH parameters I used the sketch of the arm in it's zero configuration.
----
-![alt text](./img/zero_config.png)
+
+![alt text][image1]
 
 
 
@@ -57,7 +57,7 @@ In order to calculate the DH parameters I used the sketch of the arm in it's zer
 | Gripper Frame (End-effector) | 0 | 0 | 0  | 0.303  |
 
 #### 3. Decouple Inverse Kinematics problem into Inverse Position Kinematics and inverse Orientation Kinematics; doing so derive the equations to calculate all individual joint angles.
-
+![alt text][image2]
 And here's another image!
 
 
