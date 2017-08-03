@@ -59,7 +59,9 @@ In order to calculate the DH parameters I used the sketch of the arm in it's zer
 #### 3. Decouple Inverse Kinematics problem into Inverse Position Kinematics and inverse Orientation Kinematics; doing so derive the equations to calculate all individual joint angles.
 
 This was the hardest part of the project for me. I took a lot of time to visualize the thetas especially theta2 and theta3. These thetas are represented as q1,q2,q3.. in the DH parameter table. Here is a diagram that aided me in visualization.
+
 ![alt text][image2]
+
 The axes represented in this image correspond to the sqrt(x^2 + y^2) and z axes. The triangle between joints 2, 3 and 5 can be evaluated by projecting it onto this frame.
 
 ### Project Implementation
