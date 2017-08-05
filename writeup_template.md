@@ -68,4 +68,15 @@ The axes represented in this image correspond to the sqrt(x^2 + y^2) and z axes.
 
 #### 1. Fill in the `IK_server.py` file with properly commented python code for calculating Inverse Kinematics based on previously performed Kinematic Analysis. Your code must guide the robot to successfully complete 8/10 pick and place cycles. Briefly discuss the code you implemented and your results.
 
+This is the homogeneous transform matrix that I used to perform operations for forward kinematics i.e to transform from the base frame to the gripper frame. This equation is the matrix as per the dh parameter convention
+
+Tn = \begin{array}{ccc|c}
+    \cos\theta_n & -\sin\theta_n \cos\alpha_n & \sin\theta_n \sin\alpha_n & r_n \cos\theta_n \\
+    \sin\theta_n & \cos\theta_n \cos\alpha_n & -\cos\theta_n \sin\alpha_n & r_n \sin\theta_n \\
+    0 & \sin\alpha_n & \cos\alpha_n & d_n \\
+    \hline
+    0 & 0 & 0 & 1
+   \end{array}
+
+
 The inverse kinematics code was fairly easy once I was able to visualize the sides of the triangle formed by joints 2, 3 and 5. There are the x and y co-ordinates and also correction terms to adjust the position of the frame because the wrist center is calculated with respect to the base frame.
