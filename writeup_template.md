@@ -19,7 +19,7 @@
 
 [image1]: ./images/zero_config.png
 [image2]: ./images/walthrough_diagram.png
-[image3]: ./misc_images/misc3.png
+[image3]: ./images/matrix.png
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/972/view) Points
 ### Here I will consider the rubric points individually and describe how I addressed each point in my implementation.  
@@ -56,27 +56,34 @@ In order to calculate the DH parameters I used the sketch of the arm in it's zer
 | 6 | -pi/2  |  0|  θ6 | 0  |
 | Gripper Frame (End-effector) | 0 | 0 | 0  | 0.303  |
 
+This is the homogeneous transform matrix that I used to perform operations for forward kinematics i.e to transform from the base frame to the gripper frame. This equation is the matrix as per the dh parameter convention
+
+![alt text][image3]
+
+The following matrix is obtained by peforming alternate rotations and translations about the dh parameters **alpha**, **a**, **theta** and **d** respectively. Now to obtain transforms between consecutive frames, I simply substituted corresponding values from the dh parameter table. Thus, to obtain the total transforms from the base_frame to the gripper_frame, is simply a product of all the consecutive transform matrices, in the reverse order. For this purpose I used sympy library which has an inbuilt class available for matrix operations.
+
+```python
+T0_G = simplify(T6_G*T5_6*T4_5*T3_4*T3_4*T2_3*T1_2*T0_1)
+```
+Also, the correction term for fixing the error in orientation of gripper_frame vs the dh parameter method is commented in the script.
+
 #### 3. Decouple Inverse Kinematics problem into Inverse Position Kinematics and inverse Orientation Kinematics; doing so derive the equations to calculate all individual joint angles.
 
 This was the hardest part of the project for me. I took a lot of time to visualize the thetas especially theta2 and theta3. These thetas are represented as q1,q2,q3.. in the DH parameter table. Here is a diagram that aided me in visualization.
 
 ![alt text][image2]
 
-The axes represented in this image correspond to the sqrt(x^2 + y^2) and z axes. The triangle between joints 2, 3 and 5 can be evaluated by projecting it onto this frame.
+The axes represented in this image correspond to the sqrt(x^2 + y^2) and z axes. The triangle between joints 2, 3 and 5 can be evaluated by projecting it onto this frame. As per these axes, and using the diagram provided in section 1 for reference side_a and side_c can be easily found. As for side_b, the given co-ordinates are srqt(Wx^2 + Wy^2) and Wz. So the formula is something like this :
+
+```python
+side_b = sqrt(pow(sqrt(Wx**2 + Wy**2) - 0.35,2) + pow((Wz - 0.75),2))
+```
+The terms 0.35 and 0.75 are the distance to be subtracted because the co-ordinates of wrist are calculated with respect to the base frame.
+Finding the angles of the triangle is easy, with the use of the cosine rule. Acoording to the above parameters, I have calculated values of thetas 1-3. For deriving theta 4-6, I used equations provided in the euler angles of rotation matrix section. All of the above can be found in my script.  
 
 ### Project Implementation
 
 #### 1. Fill in the `IK_server.py` file with properly commented python code for calculating Inverse Kinematics based on previously performed Kinematic Analysis. Your code must guide the robot to successfully complete 8/10 pick and place cycles. Briefly discuss the code you implemented and your results.
 
-This is the homogeneous transform matrix that I used to perform operations for forward kinematics i.e to transform from the base frame to the gripper frame. This equation is the matrix as per the dh parameter convention
-
-Tn = \begin{array}{ccc|c}
-    \cos\theta_n & -\sin\theta_n \cos\alpha_n & \sin\theta_n \sin\alpha_n & r_n \cos\theta_n \\
-    \sin\theta_n & \cos\theta_n \cos\alpha_n & -\cos\theta_n \sin\alpha_n & r_n \sin\theta_n \\
-    0 & \sin\alpha_n & \cos\alpha_n & d_n \\
-    \hline
-    0 & 0 & 0 & 1
-   \end{array}
-
-
-The inverse kinematics code was fairly easy once I was able to visualize the sides of the triangle formed by joints 2, 3 and 5. There are the x and y co-ordinates and also correction terms to adjust the position of the frame because the wrist center is calculated with respect to the base frame.
+The inverse kinematics code was fairly easy once I was able to visualize the sides of the triangle formed by joints 2, 3 and 5. There are the x and y co-ordinates and also correction terms to adjust the position of the frame because the wrist center is calculated with respect to the base frame. A brief explanation of my analysis of the IK problem can be found under rubric section 3.
+Although, the angles are calculated accurately, there is room for more improvement, because I have not provided multiple solutions for each angle. Doing this will improve my solution of the IK problem.
