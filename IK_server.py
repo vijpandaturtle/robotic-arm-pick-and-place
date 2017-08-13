@@ -18,6 +18,12 @@ from geometry_msgs.msg import Pose
 from mpmath import *
 from sympy import *
 
+# Define Modified DH Transformation matrix
+def  transform(q , a, d, alpha):
+     transform = Matrix([ [cos(q), -sin(q), 0, a], [sin(q)*cos(alpha), cos(q)*cos(alpha), -sin(alpha), -sin(alpha)*d], [sin(q)*sin(alpha), cos(q)*sin(alpha),
+              cos(alpha), cos(alpha)*d], [0, 0, 0, 1] ])
+     return transform
+
 
 def handle_calculate_IK(req):
     rospy.loginfo("Received %s eef-poses from the plan" % len(req.poses))
@@ -37,8 +43,8 @@ def handle_calculate_IK(req):
             alpha0, alpha1, alpha2, alpha3, alpha4, alpha5, alpha6= symbols('alpha0:7')
             a0, a1, a2, a3, a4, a5, a6 = symbols('a0:7')
 
-           # Joint angle symbols
-           # Modified DH params
+            # Joint angle symbols
+            # Modified DH params
             s = { d1 : 0.75, alpha0 : 0,     a0 : 0,
                   d2 : 0,    alpha1 : -pi/2, a1 : 0.35, q2 : q2 - pi/2,
                   d3 : 0,    alpha2 : 0,     a2 : 1.25,
@@ -48,14 +54,7 @@ def handle_calculate_IK(req):
                   d7 : 0.303,alpha6 : 0,     a6 : 0, q7 : 0
                  }
 
-
-            # Define Modified DH Transformation matrix
-            def  transform(q , a, d, alpha):
-                 transform = Matrix([ [cos(q), -sin(q), 0, a], [sin(q)*cos(alpha), cos(q)*cos(alpha), -sin(alpha), -sin(alpha)*d], [sin(q)*sin(alpha), cos(q)*sin(alpha),
-                          cos(alpha), cos(alpha)*d], [0, 0, 0, 1] ])
-                 return transform
-
-          # Create individual transformation matrices
+            # Create individual transformation matrices
             T0_1 = transform(q1, a0, d1, alpha0)
             T0_1 = T0_1.subs(s)
             T1_2 = transform(q2, a1, d2, alpha1)
@@ -71,19 +70,19 @@ def handle_calculate_IK(req):
             T6_G = transform(q7, a6, d7, alpha6)
             T6_G = T6_G.subs(s)
 
-         # Correction to fix difference in orientation between gripper frame and dh parameter convention method
+            # Correction to fix difference in orientation between gripper frame and dh parameter convention method
             R_z = Matrix([[cos(pi), -sin(pi), 0, 0],[sin(pi), cos(pi), 0, 0],[0, 0, 1, 0],[0, 0, 0, 1]])
             R_y = Matrix([[cos(-pi/2), 0, sin(-pi/2), 0],[0, 1, 0, 0],[-sin(-pi/2), 0, cos(-pi/2), 0],[0, 0, 0, 1]])
             # Correction term
             R_correction = simplify(R_z*R_y)
 
-           # Transformation to find end-effector position
-           T0_G = simplify(T6_G*T5_6*T4_5*T3_4*T3_4*T2_3*T1_2*T0_1)
-           # Corrected total transform
-           T_total = simplify(T0_G * R_correction)
-        # Extract end-effector position and orientation from request
-	    # px,py,pz = end-effector position
-	    # roll, pitch, yaw = end-effector orientation
+            # Transformation to find end-effector position
+            T0_G = simplify(T6_G*T5_6*T4_5*T3_4*T3_4*T2_3*T1_2*T0_1)
+            # Corrected total transform
+            T_total = simplify(T0_G * R_correction)
+            # Extract end-effector position and orientation from request
+            # px,py,pz = end-effector position
+            # roll, pitch, yaw = end-effector orientation
             px = req.poses[x].position.x
             py = req.poses[x].position.y
             pz = req.poses[x].position.z
