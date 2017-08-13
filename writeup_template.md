@@ -60,12 +60,52 @@ This is the homogeneous transform matrix that I used to perform operations for f
 
 ![alt text][image3]
 
-The following matrix is obtained by peforming alternate rotations and translations about the dh parameters **alpha**, **a**, **theta** and **d** respectively. Now to obtain transforms between consecutive frames, I simply substituted corresponding values from the dh parameter table. Thus, to obtain the total transforms from the base_frame to the gripper_frame, is simply a product of all the consecutive transform matrices, in the reverse order. For this purpose I used sympy library which has an inbuilt class available for matrix operations.
+The following matrix is obtained by peforming alternate rotations and translations about the dh parameters **alpha**, **a**, **theta** and **d** respectively. Now to obtain transforms between consecutive frames, I simply substituted corresponding values from the dh parameter table.
+
+These are the individual transform matrices based on the DH parameter table.
+
+```python
+T0_1 = [[cos(q1), -sin(q1), 0, 0],
+        [sin(q1), cos(q1), 0, 0],
+        [0, 0, 1, 0.750000000000000],
+        [0, 0, 0, 1]]
+
+T1_2 = [[sin(q2), cos(q2), 0, 0.350000000000000],
+        [0, 0, 1, 0],
+        [cos(q2), -sin(q2), 0, 0],
+        [0, 0, 0, 1]]
+
+T2_3 = [[cos(q3), -sin(q3), 0, 1.25000000000000],
+        [sin(q3), cos(q3), 0, 0],
+        [0, 0, 1, 0],
+        [0, 0, 0, 1]]
+
+T3_4 = [[cos(q4), -sin(q4), 0, -0.0540000000000000],
+        [0, 0, 1, 1.50000000000000],
+        [-sin(q4), -cos(q4), 0, 0],
+        [0, 0, 0, 1]]
+
+T4_5 = [[cos(q5), -sin(q5), 0, 0],
+        [0, 0, -1, 0],
+        [sin(q5), cos(q5), 0, 0],
+        [0, 0, 0, 1]]
+
+T5_6 = [[cos(q6), -sin(q6), 0, 0],
+        [0, 0, 1, 0],
+        [-sin(q6), -cos(q6), 0, 0],
+        [0, 0, 0, 1]]
+
+T6_G = [[1, 0, 0, 0],
+        [0, 1, 0, 0],
+        [0, 0, 1, 0.303000000000000],
+        [0, 0, 0, 1]]
+```
+
+To obtain the total transforms from the base_frame to the gripper_frame, is simply a product of all the consecutive transform matrices, in the reverse order. For this purpose I used sympy library which has an inbuilt class available for matrix operations.
 
 ```python
 T0_G = simplify(T6_G*T5_6*T4_5*T3_4*T3_4*T2_3*T1_2*T0_1)
 ```
-Also, the correction term for fixing the error in orientation of gripper_frame vs the dh parameter method is commented in the script.
 
 #### 3. Decouple Inverse Kinematics problem into Inverse Position Kinematics and inverse Orientation Kinematics; doing so derive the equations to calculate all individual joint angles.
 
