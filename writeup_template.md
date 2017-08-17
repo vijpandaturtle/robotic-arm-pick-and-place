@@ -119,7 +119,7 @@ The axes represented in this image correspond to the sqrt(x^2 + y^2) and z axes.
 side_b = sqrt(pow(sqrt(Wx**2 + Wy**2) - 0.35,2) + pow((Wz - 0.75),2))
 ```
 The terms 0.35 and 0.75 are the distance to be subtracted because the co-ordinates of wrist are calculated with respect to the base frame.
-Finding the angles of the triangle is easy, with the use of the cosine rule. Acoording to the above parameters, I have calculated values of thetas 1-3. For deriving theta 4-6, I used equations provided in the euler angles of rotation matrix section. All of the above can be found in my script. Below, are the equations for thetas1-6
+Finding the angles of the triangle is easy, with the use of the cosine rule. Acoording to the above parameters, I have calculated values of thetas 1-3. For deriving theta 4-6, I used equations provided in the euler angles of rotation matrix section. Below, are the equations for thetas1-6
 
 ```python
 # Angles for end-effector position
