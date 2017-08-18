@@ -123,14 +123,15 @@ Finding the angles of the triangle is easy, with the use of the cosine rule. Aco
 
 ```python
 # Angles for end-effector position
-q1 = atan2(Wy, Wx)
-q2 = pi/2 - angle_a - atan2((Wz - 0.75), sqrt(Wx**2 + Wy**2) - 0.35)
-q3 = pi/2 - angle_b + 0.036
+theta1 = atan2(Wy, Wx)
+theta2 = pi/2 - angle_a - atan2((Wz - 0.75), sqrt(Wx**2 + Wy**2) - 0.35)
+theta3 = pi/2 - angle_b + 0.036
 # Angles for end-effector orientation
-q4 = atan2(R3_6[2,2], -R3_6[0,2])
-q5 = atan2(sqrt(R3_6[0,2]**2 + R3_6[2,2]) - R3_6[1,2])
-q6 = atan2(-R3_6[1,1], R3_6[1,0])
+theta4 = atan2(R3_6[2,2], -R3_6[0,2])
+theta5 = atan2(sqrt(R3_6[0,2]**2 + R3_6[2,2]) - R3_6[1,2])
+theta6 = atan2(-R3_6[1,1], R3_6[1,0])
 ```
+Note : The thetas are labelled as q1, q2, q3... in the IK_server script.
 
 ### Project Implementation
 
