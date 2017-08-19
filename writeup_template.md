@@ -20,6 +20,7 @@
 [image1]: ./images/zero_config.png
 [image2]: ./images/walthrough_diagram.png
 [image3]: ./images/matrix.png
+[image4]: ./images/result.png
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/972/view) Points
 ### Here I will consider the rubric points individually and describe how I addressed each point in my implementation.  
@@ -138,3 +139,6 @@ theta6 = atan2(-R3_6[1,1], R3_6[1,0])
 
 The inverse kinematics code was fairly easy once I was able to visualize the sides of the triangle formed by joints 2, 3 and 5. There are the x and y co-ordinates and also correction terms to adjust the position of the frame because the wrist center is calculated with respect to the base frame. A brief explanation of my analysis of the IK problem can be found under rubric section 3.
 Although, the angles are calculated accurately, there is room for more improvement, because I have not provided multiple solutions for each angle. Doing this will improve my solution of the IK problem.
+I ran the simulation thrice, because it repeatedly kept crashing, and completed 2/3 cycles successfully. Below is a screenshot of my arm in simulation.
+
+![alt text][image4]
