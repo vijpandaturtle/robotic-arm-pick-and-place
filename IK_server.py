@@ -89,11 +89,11 @@ def handle_calculate_IK(req):
             end_effector_pos = Matrix([px, py, pz])
             R0_6 = R_z*R_y*R_x
 
-            R_correction = R_z.subs(y:pi)*R_y.subs(p:-pi/2)
+            R_correction = R_z.subs(y,pi)*R_y.subs(p,-pi/2)
             R0_6 = R0_6 * R_correction
             R0_6 = R0_6.subs({'r': roll, 'p': pitch, 'y': yaw})
 
-            wrist_center = end_effector_pos - (0.303)*R0_6[0:2]
+            wrist_center = end_effector_pos - (0.303)*R0_6[:,2]
 
             Wx, Wy, Wz = wrist_center[0], wrist_center[1], wrist_center[2]
 
@@ -104,23 +104,23 @@ def handle_calculate_IK(req):
             angle_b = acos((side_a**2 + side_c**2 - side_b**2)/(2*side_a*side_c))
             angle_c = acos((side_a**2 + side_b**2 + side_c**2)/(2*side_a*side_b))
             # Finding the first three joint angles using trigonometry
-            q1 = atan2(Wy, Wx)
-            q2 = pi/2 - angle_a - atan2((Wz - 0.75), sqrt(Wx**2 + Wy**2) - 0.35)
-            q3 = pi/2 - angle_b + 0.036
+            theta1 = atan2(Wy, Wx)
+            theta2 = pi/2 - angle_a - atan2((Wz - 0.75), sqrt(Wx**2 + Wy**2) - 0.35)
+            theta3 = pi/2 - angle_b + 0.036
 
             # Finding the last three joint angles
-            R0_3 = T0_1[0:3]*T1_2[0:3]*T2_3[0:3]
-            R0_3 = R0_3.subs(s)
+            R0_3 = T0_1[0:3,0:3]*T1_2[0:3,0:3]*T2_3[0:3,0:3]
+            R0_3 = R0_3.evalf(subs={q1:theta1, q2:theta2, q3:theta3})
             # Using the matrix containing last three transforms to calculate last three thetas
             R3_6 = R0_3.inv('LU')*R0_6
 
-            q4 = atan2(R3_6[2,2], -R3_6[0,2])
-            q5 = atan2(sqrt(R3_6[0,2]**2 + R3_6[2,2]) - R3_6[1,2])
-            q6 = atan2(-R3_6[1,1], R3_6[1,0])
+            theta4 = atan2(R3_6[2,2], -R3_6[0,2])
+            theta5 = atan2(sqrt(R3_6[0,2]**2 + R3_6[2,2]**2), R3_6[1,2])
+            theta6 = atan2(-R3_6[1,1], R3_6[1,0])
 
             # Populate response for the IK request
             # In the next line replace theta1,theta2...,theta6 by your joint angle variables
-    	    joint_trajectory_point.positions = [q1, q2, q3, q4, q5, q6]
+    	    joint_trajectory_point.positions = [theta1, theta2, theta3, theta4, theta5, theta6]
     	    joint_trajectory_list.append(joint_trajectory_point)
 
         rospy.loginfo("length of Joint Trajectory List: %s" % len(joint_trajectory_list))

@@ -104,7 +104,7 @@ T6_G = [[1, 0, 0, 0],
 To obtain the total transforms from the base_frame to the gripper_frame, is simply a product of all the consecutive transform matrices, in the reverse order. For this purpose I used sympy library which has an inbuilt class available for matrix operations.
 
 ```python
-T0_G = simplify(T6_G*T5_6*T4_5*T3_4*T3_4*T2_3*T1_2*T0_1)
+T0_G = T0_1*T1_2*T2_3*T3_4*T4_5*T5_6*T6_G
 ```
 
 #### 3. Decouple Inverse Kinematics problem into Inverse Position Kinematics and inverse Orientation Kinematics; doing so derive the equations to calculate all individual joint angles.
@@ -128,10 +128,9 @@ theta2 = pi/2 - angle_a - atan2((Wz - 0.75), sqrt(Wx**2 + Wy**2) - 0.35)
 theta3 = pi/2 - angle_b + 0.036
 # Angles for end-effector orientation
 theta4 = atan2(R3_6[2,2], -R3_6[0,2])
-theta5 = atan2(sqrt(R3_6[0,2]**2 + R3_6[2,2]) - R3_6[1,2])
+theta5 = atan2(sqrt(R3_6[0,2]**2 + R3_6[2,2]**2), R3_6[1,2])
 theta6 = atan2(-R3_6[1,1], R3_6[1,0])
 ```
-Note : The thetas are labelled as q1, q2, q3... in the IK_server script.
 
 ### Project Implementation
 
